@@ -52,10 +52,11 @@ MIN_IOS_VERSION = Version("17.4")
 PAIR_TIMEOUT_SECONDS = 60
 UNEXPECTED_ERROR_PREFIX = "Unerwarteter Fehler"
 
-DEVELOPER_MODE_HINT = (
-    "Der Entwicklermodus ist aus. Auf dem iPhone: Einstellungen › Datenschutz & Sicherheit › "
+DEVELOPER_MODE_STEPS = (
+    "Auf dem iPhone die Einstellungen-App schließen und neu öffnen, dann Datenschutz & Sicherheit › ganz unten "
     "Entwicklermodus einschalten, Neustart bestätigen und nach dem Entsperren „Aktivieren“ wählen."
 )
+DEVELOPER_MODE_HINT = f"Der Entwicklermodus ist aus. {DEVELOPER_MODE_STEPS}"
 
 
 class DeviceError(Exception):
@@ -138,9 +139,18 @@ class PymobiledeviceBackend:
                 raise DeviceError(f"iOS {ios_version} wird nicht unterstützt (mindestens iOS {MIN_IOS_VERSION}).")
             if lockdown.has_developer_mode and not await lockdown.get_developer_mode_status():
                 # Der Schalter erscheint in den Einstellungen erst, nachdem ein Host ihn freigeschaltet hat.
-                with suppress(Exception):
+                try:
                     await AmfiService(lockdown).reveal_developer_mode_option_in_ui()
-                raise DeviceError(DEVELOPER_MODE_HINT)
+                except Exception as e:
+                    logger.warning("Freischalten des Entwicklermodus-Schalters fehlgeschlagen", exc_info=True)
+                    raise DeviceError(
+                        f"Der Entwicklermodus ist aus, und das iPhone hat das Freischalten des Schalters abgelehnt "
+                        f"({type(e).__name__}: {e}). Prüfen, ob unter Einstellungen › Allgemein › VPN & "
+                        "Geräteverwaltung ein Verwaltungsprofil installiert ist."
+                    ) from e
+                raise DeviceError(
+                    f"Der Entwicklermodus ist aus; der Schalter wurde gerade freigeschaltet. {DEVELOPER_MODE_STEPS}"
+                )
             return DeviceInfo(
                 udid=lockdown.udid,
                 name=lockdown.all_values.get("DeviceName"),
