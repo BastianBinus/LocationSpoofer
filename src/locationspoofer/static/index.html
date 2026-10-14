@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LocationSpoofer</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="map" aria-label="Karte: Klicken setzt das Ziel"></div>
+
+  <main class="panel" aria-labelledby="title">
+    <header class="panel-header">
+      <h1 id="title">LocationSpoofer</h1>
+      <p class="device" aria-live="polite">
+        <span id="status-dot" class="dot" data-state="disconnected"></span>
+        <span id="device-text">Nicht verbunden</span>
+      </p>
+    </header>
+
+    <form id="teleport-form" novalidate>
+      <label for="coordinates">Ziel (Breite, Länge)</label>
+      <input id="coordinates" name="coordinates" type="text" inputmode="decimal" autocomplete="off"
+             spellcheck="false" placeholder="48.13743, 11.57549">
+      <p class="hint">Auf die Karte klicken oder Koordinaten einfügen, z.&nbsp;B. aus Google Maps.</p>
+      <div class="actions">
+        <button id="teleport" type="submit" class="primary">Teleportieren</button>
+        <button id="reset" type="button">Echter Standort</button>
+      </div>
+    </form>
+
+    <p id="active-text" class="active" aria-live="polite">Echter Standort aktiv</p>
+    <p id="message" class="message" role="alert" hidden></p>
+    <button id="connect" type="button" class="connect" hidden>Verbinden</button>
+  </main>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
