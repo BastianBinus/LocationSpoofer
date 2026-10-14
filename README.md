@@ -19,7 +19,7 @@ Die Gerätekommunikation übernimmt [pymobiledevice3](https://github.com/doronz8
 | iPhone | iOS 17.4 oder neuer (Zielsystem: iOS 27), USB-Kabel, Entwicklermodus (siehe unten) |
 | Rechner | **Windows oder Linux nativ**, Python 3.11 oder neuer |
 | Windows | iTunes, das den „Apple Mobile Device Service“ mitbringt. Ob die App „Apple-Geräte“ allein reicht, ist nicht geprüft. |
-| Linux | `usbmuxd` (z. B. `sudo apt install usbmuxd`) |
+| Linux | `usbmuxd`, `python3-venv`, ab Python 3.14 zusätzlich Compiler und Header (zwei Abhängigkeiten haben dort keine fertigen Wheels): `sudo apt install usbmuxd python3-venv build-essential python3-dev` |
 | Netz | Internet für die Karte, den einmaligen DDI-Download und die DDI-Signatur durch Apple |
 
 **WSL2 wird nicht empfohlen.** Das USB-Gerät müsste per `usbipd` durchgereicht werden und usbmuxd in WSL laufen.
