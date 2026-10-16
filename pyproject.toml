@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "locationspoofer"
+version = "0.1.0"
+description = "Lokale Web-UI, die den Standort eines per USB verbundenen iPhones über Apples Developer-Dienste simuliert"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    # Obergrenze, weil pymobiledevice3 seine API zwischen Major-Versionen umbaut.
+    "pymobiledevice3>=11.29.1,<12",
+    "fastapi>=0.115",
+    "packaging>=23",
+    "uvicorn>=0.30",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[project.scripts]
+locationspoofer = "locationspoofer.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+locationspoofer = ["static/*", "static/vendor/leaflet/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
