@@ -37,11 +37,19 @@ pip install -e .
 
 ## Start
 
+Linux:
+
+```bash
+./start.sh               # richtet beim ersten Mal .venv ein und startet bei Bedarf usbmuxd
+```
+
+Sonst, mit aktivierter `.venv`:
+
 ```bash
 locationspoofer          # oder: python -m locationspoofer
 ```
 
-Der Browser öffnet `http://127.0.0.1:8765/`. Optionen: `--port`, `--udid` (bei mehreren Geräten),
+Der Browser öffnet `http://127.0.0.1:8765/`. Optionen gehen auch an `./start.sh`, z. B. `./start.sh -v`. Optionen: `--port`, `--udid` (bei mehreren Geräten),
 `--no-browser`, `-v` (ausführliches Logging) und `--lan` (siehe unten).
 
 ### Erste Einrichtung am iPhone
